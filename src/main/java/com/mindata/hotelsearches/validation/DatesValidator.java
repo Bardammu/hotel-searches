@@ -9,6 +9,12 @@ import java.util.Date;
 
 import static org.apache.logging.log4j.LogManager.getLogger;
 
+/**
+ * Implementation of {@link ConstraintValidator} that can be used in conjunction with {@link CompareDates} to
+ * validate that a {@link Date} is older than another {@link Date}
+ *
+ * @since 1.0.0
+ */
 public class DatesValidator implements ConstraintValidator<CompareDates, Object> {
 
     Logger logger = getLogger(DatesValidator.class);

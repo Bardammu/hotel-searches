@@ -1,5 +1,6 @@
 package com.mindata.hotelsearches.config;
 
+import com.mindata.hotelsearches.model.Search;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -11,6 +12,11 @@ import java.util.Map;
 import static java.util.Collections.singletonMap;
 import static org.apache.kafka.clients.CommonClientConfigs.BOOTSTRAP_SERVERS_CONFIG;
 
+/**
+ * Configuration of the Kafka topic used to send the {@link Search}
+ *
+ * @since 1.0.0
+ */
 @Configuration
 public class KafkaTopicConfig {
 
