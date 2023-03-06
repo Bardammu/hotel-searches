@@ -71,8 +71,8 @@ public class DefaultSearchService implements SearchService {
 
         Query query = new Query();
         query.addCriteria(where("hotelSearch.hotelId").is(search.get().getHotelSearch().hotelId()))
-                .addCriteria(where("hotelSearch.checkIn").is(search.get().getHotelSearch().checkIn().getTime()))
-                .addCriteria(where("hotelSearch.checkOut").is(search.get().getHotelSearch().checkOut().getTime()))
+                .addCriteria(where("hotelSearch.checkIn").is(search.get().getHotelSearch().checkIn()))
+                .addCriteria(where("hotelSearch.checkOut").is(search.get().getHotelSearch().checkOut()))
                 .addCriteria(where("hotelSearch.ages").is(search.get().getHotelSearch().ages()));
 
         List<Search> searches = mongoTemplate.find(query, Search.class);
