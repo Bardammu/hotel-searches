@@ -29,13 +29,13 @@ public class SearchesController {
     }
 
     @PostMapping(path = "/search", consumes = { APPLICATION_JSON_VALUE }, produces = { APPLICATION_JSON_VALUE })
-    public ResponseEntity<HotelSearchPostResponse> postSearch(@Valid @RequestBody HotelSearch hotelSearch) {
+    public ResponseEntity<HotelSearchPostResponse> postSearch(@Valid @RequestBody final HotelSearch hotelSearch) {
         String uuid = searchService.storeSearch(hotelSearch);
         return status(CREATED).body(new HotelSearchPostResponse(uuid));
     }
 
     @GetMapping(path = "/count", produces = { APPLICATION_JSON_VALUE })
-    public ResponseEntity<HotelSearchCountResponse> getSearchCount(@RequestParam String searchId) {
+    public ResponseEntity<HotelSearchCountResponse> getSearchCount(@RequestParam final String searchId) {
         HotelSearchCountResponse hotelSearchCountResponse = searchService.getHotelSearchCount(searchId);
         return ok().body(hotelSearchCountResponse);
     }

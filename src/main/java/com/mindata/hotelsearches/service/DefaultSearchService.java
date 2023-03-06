@@ -50,7 +50,7 @@ public class DefaultSearchService implements SearchService {
     }
 
     @Override
-    public String storeSearch(HotelSearch hotelSearch) {
+    public String storeSearch(final HotelSearch hotelSearch) {
         Search search = new Search();
         search.set_id(randomUUID().toString());
         search.setHotelSearch(hotelSearch);
@@ -62,7 +62,7 @@ public class DefaultSearchService implements SearchService {
     }
 
     @Override
-    public HotelSearchCountResponse getHotelSearchCount(String searchId) {
+    public HotelSearchCountResponse getHotelSearchCount(final String searchId) {
         Optional<Search> search = hotelSearchRepository.findById(searchId);
 
         if (search.isEmpty()) {
