@@ -1,5 +1,6 @@
 package com.mindata.hotelsearches.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.mindata.hotelsearches.validation.CompareDates;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotBlank;
@@ -8,8 +9,10 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 import org.springframework.validation.annotation.Validated;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
+
+import static com.fasterxml.jackson.annotation.JsonFormat.Shape.STRING;
 
 /**
  * Record representing a hotel search.
@@ -19,7 +22,7 @@ import java.util.List;
 @Validated
 @CompareDates(before = "checkIn", after = "checkOut")
 public record HotelSearch(@NotBlank(message = "Hotel Id should not be null or blank") String hotelId,
-                          @NotNull(message = "Check-in should not be null or blank") @Future(message = "Check-in should not be in the past") Date checkIn,
-                          @NotNull(message = "Check-out should not be null or blank") @Future(message = "Check-out should not be in the past") Date checkOut,
+                          @NotNull(message = "Check-in should not be null or blank") @Future(message = "Check-in should not be in the past") @JsonFormat(shape = STRING, pattern = "dd/MM/yyyy")  LocalDate checkIn,
+                          @NotNull(message = "Check-out should not be null or blank") @Future(message = "Check-out should not be in the past") @JsonFormat(shape = STRING, pattern = "dd/MM/yyyy") LocalDate checkOut,
                           @NotEmpty(message = "Ages should not be null or blank") List<@PositiveOrZero(message = "Ages should not be negative") Integer> ages) {
 }

@@ -17,6 +17,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
+import static com.mindata.hotelsearches.deserializer.LocalDateConverter.DATE_FORMATTER;
+import static java.time.format.DateTimeFormatter.ofPattern;
 import static java.util.UUID.randomUUID;
 import static org.slf4j.LoggerFactory.getLogger;
 import static org.springframework.data.mongodb.core.query.Criteria.where;
@@ -69,8 +71,8 @@ public class DefaultSearchService implements SearchService {
 
         Query query = new Query();
         query.addCriteria(where("hotelSearch.hotelId").is(search.get().getHotelSearch().hotelId()))
-                .addCriteria(where("hotelSearch.checkIn").is(search.get().getHotelSearch().checkIn()))
-                .addCriteria(where("hotelSearch.checkOut").is(search.get().getHotelSearch().checkOut()))
+                .addCriteria(where("hotelSearch.checkIn").is(search.get().getHotelSearch().checkIn().format(ofPattern(DATE_FORMATTER))))
+                .addCriteria(where("hotelSearch.checkOut").is(search.get().getHotelSearch().checkOut().format(ofPattern(DATE_FORMATTER))))
                 .addCriteria(where("hotelSearch.ages").is(search.get().getHotelSearch().ages()));
 
         List<Search> searches = mongoTemplate.find(query, Search.class);

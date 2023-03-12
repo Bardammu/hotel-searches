@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import java.util.List;
 import java.util.Objects;
 
-import static java.sql.Date.valueOf;
+import static java.time.LocalDate.parse;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -26,7 +26,7 @@ public class SearchesITCase extends IntegrationITCase {
 
     @Test
     public void postNewSearch() {
-        HotelSearch hotelSearch = new HotelSearch( "9999aBc", valueOf("2023-12-29"), valueOf("2023-12-31"), List.of(30, 29, 1 ,3));
+        HotelSearch hotelSearch = new HotelSearch( "9999aBc", parse("2023-12-29"), parse("2023-12-31"), List.of(30, 29, 1 ,3));
 
         HttpEntity<HotelSearch> requestSuperheroEntity = new HttpEntity<>(hotelSearch);
         ResponseEntity<HotelSearchPostResponse> responseEntity = restTemplate.postForEntity(URL_HOTEL_SEARCH, requestSuperheroEntity , HotelSearchPostResponse.class);
@@ -38,7 +38,7 @@ public class SearchesITCase extends IntegrationITCase {
     @Test
     public void getCountSearch() {
         String urlTemplate = fromHttpUrl(URL_HOTEL_COUNT)
-                .queryParam("searchId", "c1b7a472-3c33-4385-81ee-ac20dc5c871c")
+                .queryParam("searchId", search1OnDBId)
                 .encode()
                 .toUriString();
         ResponseEntity<HotelSearchCountResponse> responseEntity = restTemplate.getForEntity(urlTemplate, HotelSearchCountResponse.class);
@@ -49,7 +49,7 @@ public class SearchesITCase extends IntegrationITCase {
 
     @Test
     public void postNewSearchMissingHotelId() {
-        HotelSearch hotelSearch = new HotelSearch( null, valueOf("2023-12-29"), valueOf("2023-12-31"), List.of(30, 29, 1 ,3));
+        HotelSearch hotelSearch = new HotelSearch( null, parse("2023-12-29"), parse("2023-12-31"), List.of(30, 29, 1 ,3));
 
         HttpEntity<HotelSearch> requestSuperheroEntity = new HttpEntity<>(hotelSearch);
         ResponseEntity<SimpleMessageResponse> responseEntity = restTemplate.postForEntity(URL_HOTEL_SEARCH, requestSuperheroEntity , SimpleMessageResponse.class);
@@ -62,7 +62,7 @@ public class SearchesITCase extends IntegrationITCase {
 
     @Test
     public void postNewSearchWithCheckInInThePast() {
-        HotelSearch hotelSearch = new HotelSearch( "9999aBd", valueOf("2020-12-29"), valueOf("2023-12-31"), List.of(30, 29, 1 ,3));
+        HotelSearch hotelSearch = new HotelSearch( "9999aBd", parse("2020-12-29"), parse("2023-12-31"), List.of(30, 29, 1 ,3));
 
         HttpEntity<HotelSearch> requestSuperheroEntity = new HttpEntity<>(hotelSearch);
         ResponseEntity<SimpleMessageResponse> responseEntity = restTemplate.postForEntity(URL_HOTEL_SEARCH, requestSuperheroEntity , SimpleMessageResponse.class);
@@ -74,7 +74,7 @@ public class SearchesITCase extends IntegrationITCase {
 
     @Test
     public void postNewSearchWithCheckOutThePast() {
-        HotelSearch hotelSearch = new HotelSearch( "9999aBd", valueOf("2023-12-29"), valueOf("2020-12-31"), List.of(30, 29, 1 ,3));
+        HotelSearch hotelSearch = new HotelSearch( "9999aBd", parse("2023-12-29"), parse("2020-12-31"), List.of(30, 29, 1 ,3));
 
         HttpEntity<HotelSearch> requestSuperheroEntity = new HttpEntity<>(hotelSearch);
         ResponseEntity<SimpleMessageResponse> responseEntity = restTemplate.postForEntity(URL_HOTEL_SEARCH, requestSuperheroEntity , SimpleMessageResponse.class);
@@ -86,7 +86,7 @@ public class SearchesITCase extends IntegrationITCase {
 
     @Test
     public void postNewSearchWithNegativeAges() {
-        HotelSearch hotelSearch = new HotelSearch( "9999aBd", valueOf("2023-12-29"), valueOf("2023-12-31"), List.of(-1, -2));
+        HotelSearch hotelSearch = new HotelSearch( "9999aBd", parse("2023-12-29"), parse("2023-12-31"), List.of(-1, -2));
 
         HttpEntity<HotelSearch> requestSuperheroEntity = new HttpEntity<>(hotelSearch);
         ResponseEntity<SimpleMessageResponse> responseEntity = restTemplate.postForEntity(URL_HOTEL_SEARCH, requestSuperheroEntity , SimpleMessageResponse.class);
@@ -98,7 +98,7 @@ public class SearchesITCase extends IntegrationITCase {
 
     @Test
     public void postNewSearchWithEmptyAgesList() {
-        HotelSearch hotelSearch = new HotelSearch( "9999aBd", valueOf("2023-12-29"), valueOf("2023-12-31"), List.of());
+        HotelSearch hotelSearch = new HotelSearch( "9999aBd", parse("2023-12-29"), parse("2023-12-31"), List.of());
 
         HttpEntity<HotelSearch> requestSuperheroEntity = new HttpEntity<>(hotelSearch);
         ResponseEntity<SimpleMessageResponse> responseEntity = restTemplate.postForEntity(URL_HOTEL_SEARCH, requestSuperheroEntity , SimpleMessageResponse.class);
@@ -110,7 +110,7 @@ public class SearchesITCase extends IntegrationITCase {
 
     @Test
     public void postNewSearchWithCheckOutBeforeCheckIn() {
-        HotelSearch hotelSearch = new HotelSearch( "9999aBd", valueOf("2023-12-31"), valueOf("2023-12-29"), List.of(29, 39));
+        HotelSearch hotelSearch = new HotelSearch( "9999aBd", parse("2023-12-31"), parse("2023-12-29"), List.of(29, 39));
 
         HttpEntity<HotelSearch> requestSuperheroEntity = new HttpEntity<>(hotelSearch);
         ResponseEntity<SimpleMessageResponse> responseEntity = restTemplate.postForEntity(URL_HOTEL_SEARCH, requestSuperheroEntity , SimpleMessageResponse.class);

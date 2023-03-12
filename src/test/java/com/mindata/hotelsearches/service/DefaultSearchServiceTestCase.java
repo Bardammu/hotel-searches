@@ -13,7 +13,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -23,6 +23,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -50,7 +51,7 @@ public class DefaultSearchServiceTestCase {
     public void setUp() {
         defaultSearchService = new DefaultSearchService("topicName" ,hotelSearchRepository, kafkaTemplate, mongoTemplate);
 
-        hotelSearch = new HotelSearch("hotelId", Date.valueOf("2023-10-30"), Date.valueOf("2023-11-30"), List.of(29, 30));
+        hotelSearch = new HotelSearch("hotelId", LocalDate.parse("2023-10-30"), LocalDate.parse("2023-11-30"), List.of(29, 30));
         Search search1 = new Search("id1", hotelSearch);
         Search search2 = new Search("id2", hotelSearch);
         CompletableFuture completableFuture = mock(CompletableFuture.class);
@@ -62,7 +63,6 @@ public class DefaultSearchServiceTestCase {
 
     @Test
     public void storeNewSearch() {
-        HotelSearch hotelSearch = new HotelSearch("hotelID", Date.valueOf("2023-10-01"), Date.valueOf("2023-11-01"), List.of(31, 32));
         String searchId = defaultSearchService.storeSearch(hotelSearch);
 
         assertThat(searchId, not(is(nullValue())));
@@ -72,8 +72,8 @@ public class DefaultSearchServiceTestCase {
     public void getHotelSearchesCount() {
         HotelSearchCountResponse hotelSearchCountResponse = defaultSearchService.getHotelSearchCount("id1");
 
-        assertThat(hotelSearchCountResponse.count(), is(2));
-        assertThat(hotelSearchCountResponse.search(), is(hotelSearch));
+        assertAll(() -> assertThat(hotelSearchCountResponse.count(), is(2)),
+                  () -> assertThat(hotelSearchCountResponse.search(), is(hotelSearch)));
     }
 
     @Test

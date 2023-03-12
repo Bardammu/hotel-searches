@@ -20,6 +20,9 @@ public abstract class IntegrationITCase {
     @LocalServerPort
     private int port;
 
+    protected String search1OnDBId = "c1b7a472-3c33-4385-81ee-ac20dc5c871c";
+    protected String search2OnDBId = "fb50a798-4f6b-4df3-9483-785dc0c1dcb5";
+
     protected String HOST;
     protected String URL_HOTEL_SEARCH;
     protected String URL_HOTEL_COUNT;
