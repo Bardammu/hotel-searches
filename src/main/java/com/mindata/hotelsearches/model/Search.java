@@ -12,28 +12,33 @@ import java.util.Objects;
  * @since 1.0.0
  */
 @Document(collection="hotel_availability_searches")
-public class Search {
+public final class Search {
 
     @MongoId
-    private String _id;
+    private final String _id;
 
     @NotBlank
-    private HotelSearch hotelSearch;
+    private final HotelSearch hotelSearch;
+
+    public Search(String _id, HotelSearch hotelSearch) {
+        this._id = _id;
+        this.hotelSearch = hotelSearch;
+    }
 
     public String get_id() {
         return _id;
-    }
-
-    public void set_id(String _id) {
-        this._id = _id;
     }
 
     public HotelSearch getHotelSearch() {
         return hotelSearch;
     }
 
-    public void setHotelSearch(HotelSearch hotelSearch) {
-        this.hotelSearch = hotelSearch;
+    @Override
+    public String toString() {
+        return "Search{" +
+                "_id='" + _id + '\'' +
+                ", hotelSearch=" + hotelSearch.toString() +
+                '}';
     }
 
     @Override

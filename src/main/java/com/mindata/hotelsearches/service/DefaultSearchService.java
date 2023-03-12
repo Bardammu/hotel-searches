@@ -51,9 +51,7 @@ public class DefaultSearchService implements SearchService {
 
     @Override
     public String storeSearch(final HotelSearch hotelSearch) {
-        Search search = new Search();
-        search.set_id(randomUUID().toString());
-        search.setHotelSearch(hotelSearch);
+        Search search = new Search(randomUUID().toString(), hotelSearch);
 
         CompletableFuture<SendResult<String, Search>> future = kafkaTemplate.send(topicName, search);
         future.thenAccept((result) -> logger.info("Sent message=[{}] with offset=[{}]", search, result.getRecordMetadata().offset()));
